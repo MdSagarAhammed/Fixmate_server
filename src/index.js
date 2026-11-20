@@ -1,0 +1,14 @@
+require('dotenv').config();
+const express = require('express');
+const cors = require('cors');
+
+const app = express();
+app.use(cors({ origin: (process.env.CLIENT_URLS || 'http://localhost:3000').split(','), credentials: true }));
+
+app.use(express.json());
+app.use(async (req, res, next) => { try { await connect(); next(); } catch (e) { next(e); } });
+
+app.get('/', (req, res) => res.send('FixMate API is running'));
+
+app.listen(process.env.PORT || 5000, () => console.log('FixMate API on', process.env.PORT || 5000));
+module.exports = app;
