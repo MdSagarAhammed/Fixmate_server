@@ -27,3 +27,19 @@ router.post('/', verifyToken, verifyCustomer, async (req, res) => {
   const r = await c.bookings.insertOne(doc);
   res.status(201).json({ ...doc, _id: r.insertedId });
 });
+
+router.get('/my', verifyToken, verifyCustomer, async (req, res) => {
+  res.json(await c.bookings.find({ customerEmail: req.user.email }).sort({ createdAt: -1 }).toArray());
+});
+
+router.get('/technician', verifyToken, verifyTechnician, async (req, res) => {
+  res.json(await c.bookings.find({ technicianEmail: req.user.email }).sort({ createdAt: -1 }).toArray());
+});
+
+router.patch('/:id/cancel', verifyToken, verifyCustomer, async (req, res) => {
+  const id = oid(req.params.id);
+  if (!id) return bad(res, 'Invalid id');
+  const r = await c.bookings.updateOne({ _id: id, customerEmail: req.user.email, status: 'requested' }, { $set: { status: 'cancelled' } });
+  r.matchedCount ? res.json({ ok: true }) : bad(res, 'Only your own requested bookings can be cancelled', 400);
+});
+
