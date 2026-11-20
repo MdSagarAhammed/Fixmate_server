@@ -12,6 +12,7 @@ app.use(async (req, res, next) => { try { await connect(); next(); } catch (e) {
 
 app.get('/', (req, res) => res.send('FixMate API is running'));
 app.use('/api/payments', require('./routes/payments'));
+app.use('/api/users', require('./routes/users'));
 
 app.listen(process.env.PORT || 5000, () => console.log('FixMate API on', process.env.PORT || 5000));
 module.exports = app;
