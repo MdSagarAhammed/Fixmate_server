@@ -43,3 +43,22 @@ router.patch('/:id/cancel', verifyToken, verifyCustomer, async (req, res) => {
   r.matchedCount ? res.json({ ok: true }) : bad(res, 'Only your own requested bookings can be cancelled', 400);
 });
 
+router.patch('/:id/status', verifyToken, verifyTechnician, async (req, res) => {
+  const id = oid(req.params.id);
+  if (!id) return bad(res, 'Invalid id');
+  const b = await c.bookings.findOne({ _id: id, technicianEmail: req.user.email });
+  if (!b) return bad(res, 'Booking not found', 404);
+  const next = req.body.status;
+  const allowed = TRANSITIONS[b.status]?.[next];
+  if (allowed !== 'technician') return bad(res, `Cannot change status from ${b.status} to ${next}`, 400);
+  const set = { status: next };
+  if (next === 'completed') {
+    const amt = Number(req.body.finalAmount);
+    if (!(amt > 0)) return bad(res, 'finalAmount must be greater than 0');
+    set.finalAmount = amt;
+  }
+  await c.bookings.updateOne({ _id: id }, { $set: set });
+  res.json({ ok: true });
+});
+
+module.exports = router;
