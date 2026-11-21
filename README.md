@@ -6,8 +6,8 @@ REST API for **FixMate**, an on-demand device and home appliance repair booking 
 FixMate Server handles authentication checks, role-based access, repair services, bookings, and Stripe payments for the FixMate client app. Technicians list services, customers request repairs and track each job, and payment happens only after the job is completed.
 
 ## Live URL
-- **API:** https://
-- **Client:** https://
+- **API:** https://fixmate-server-dusky.vercel.app
+- **Client:** https://https://fixmate-wheat-mu.vercel.app
 - **Client repo:** https://github.com/MdSagarAhammed/Fixmate_server.git
 
 ## Purpose
