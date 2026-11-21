@@ -7,8 +7,8 @@ FixMate Server handles authentication checks, role-based access, repair services
 
 ## Live URL
 - **API:** https://fixmate-server-dusky.vercel.app
-- **Client:** https://https://fixmate-wheat-mu.vercel.app
-- **Client repo:** https://github.com/MdSagarAhammed/Fixmate_server.git
+- **Client:** https://fixmate-wheat-mu.vercel.app
+- **Client repo:** https://github.com/MdSagarAhammed/fixmate.git
 
 ## Purpose
 This server is the single source of truth for FixMate. It:
